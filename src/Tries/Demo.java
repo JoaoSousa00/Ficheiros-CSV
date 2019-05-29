@@ -26,7 +26,7 @@ public class Demo {
         
         c.calculateAverageMinutesPerNumber();
         
-        c.calculateAverageMinutesPerArea("415", "Calma");
+        c.calculateAverageMinutesPerArea("610", "Calma");
         
     }
     

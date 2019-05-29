@@ -5,7 +5,7 @@ package interfaces;
  * <strong>Author: </strong><br>
  * Joao Sousa<br>
  * <strong>Description: </strong><br>
- * Interface that 
+ * Interface that represents what the Calls Data needs to implement
  * </p>
  */
 public interface CallsDataContract {

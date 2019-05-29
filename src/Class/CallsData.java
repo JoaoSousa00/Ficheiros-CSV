@@ -1,11 +1,11 @@
 package Class;
 
+import Exceptions.AreaCodeNotFoundException;
 import interfaces.CallsDataContract;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.logging.Level;
@@ -53,7 +53,7 @@ public class CallsData implements CallsDataContract {
                 i++;
                 res += soma;
             }
-            System.out.println( String.format( "\t Média :  %.3f minutos \n", res/i));
+            System.out.println( String.format( "\t Média :  %.3f minutos \n", res/i) );
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(CallsData.class.getName()).log(Level.SEVERE, null, ex);
@@ -65,13 +65,8 @@ public class CallsData implements CallsDataContract {
     }
 
     @Override
-    
-    /**
-     * O que fazer???? média por área? total daquela área?
-     */
-    
     public double calculateAverageMinutesPerArea(String area_code, String outputFileName) {
-        double res=0, soma=0;
+        double res=-1, soma=0;
         int i=1;
         String[] min;
         
@@ -96,22 +91,24 @@ public class CallsData implements CallsDataContract {
                     res += soma;
                 }
             }
-            System.out.println( String.format( "\t Média :  %.3f minutos \n", res/i));
+            if (i==1)
+                throw new AreaCodeNotFoundException("|Erro: Código de área não encontrado no ficheiro");
             
+            System.out.println( String.format( "\t Média :  %.3f minutos \n", res/i) ); //Uso do string.format para restringir as casas decimais apenas a duas
             
-            FileOutputStream fileOut = new FileOutputStream( outputFileName + ".txt" );
+            FileOutputStream fileOut = new FileOutputStream( outputFileName + ".csv" );
             ObjectOutputStream out = new ObjectOutputStream( fileOut );
-            out.writeObject( res );
+            out.writeObject( Double.toString( (res/i) ) );
             out.close();
             fileOut.close();
             System.out.println( "Informação guardada no ficheiro: " + outputFileName );
-                    
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(CallsData.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(CallsData.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("IOException");
+        } catch (AreaCodeNotFoundException ex) {
         }
         
         return res;
